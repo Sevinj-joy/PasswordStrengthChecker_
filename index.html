@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background:#b5c1d2; /* Dark green gradient for a security theme */
+            color: #33235c;
+            padding-top: 50px;
+        }
+
+        .container {
+            max-width: 500px;
+            background: #889bb7; /* Greenish background for security feel */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px #9882d0; /* Green glow for the security theme */
+        }
+
+        .container-anime{
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Uçak stili */
+   /* Uçak stili */
+/* Uçak stili */
+.plane {
+    position: absolute;
+    width: 500px;
+    height: 300px;
+    bottom: 0; /* Uçağı ekranın alt kısmına yerleştirir */
+    background: url('images/p.webp') no-repeat center;
+    background-size: contain;
+}
+
+.ribbon {
+    position: absolute;
+    bottom: 10%; /* Lentin dikey konumu (uçakla hizalı) */
+    left: calc(100px + 500px - 10px);
+    color: whitesmoke;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 41px;
+    text-align: right;
+    font-family: cursive;
+}
+
+
+        h1 {
+            color: #33235c;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.8); /* Slight transparency for input */
+            border: none;
+            color: #000;
+        }
+
+        .btn-primary {
+            background-color:#33235c; /* Strong green button for submission */
+            border-color: #676798;
+            border-radius: 0.25rem;
+        }
+
+        .input-group-text {
+            cursor: pointer; /* Change cursor to pointer on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center mb-4">Password Strength Checker</h1>
+    <form id="passwordForm" action="/predict" method="post">
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <div class="input-group">
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+                <div class="input-group-append">
+                    <span class="input-group-text" id="togglePassword">
+                        <i class="fas fa-eye" id="eyeIcon"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Check Strength</button>
+    </form>
+    <div id="feedback" class="mt-3"></div>
+</div>
+
+<div class="container-anime">
+    <div class="ribbon" id="ribbon">
+        <p id="teamName"></p>
+    </div>
+    <div class="plane" id="plane"></div>
+</div>
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    const togglePassword = document.querySelector('#togglePassword');
+    const passwordInput = document.querySelector('#password');
+    const eyeIcon = document.querySelector('#eyeIcon');
+
+    togglePassword.addEventListener('click', function () {
+        // Toggle the type attribute
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        // Toggle the eye slash icon
+        eyeIcon.classList.toggle('fa-eye-slash');
+    });
+
+        // Uçak ve lent elemanlarını seçiyoruz
+        const plane = document.getElementById("plane");
+        const ribbon = document.getElementById("ribbon");
+        const teamName = document.getElementById("teamName");
+    
+        // Takım üyelerinin isimleri
+        const teamMembers = ['Created by', "Mammad", "Sevinj", "Murad"];
+        let memberIndex = 0;
+    
+        // Uçağın başlangıç pozisyonu
+        let position = -250;
+    
+        // İsim değiştirme işlevi
+        function changeName() {
+            teamName.innerText = teamMembers[memberIndex];
+            memberIndex = (memberIndex + 1) % teamMembers.length; // Sıradaki isme geç
+        }
+    
+        // Uçak ve lent animasyonu
+        function animate() {
+            position += 2;  // Uçağın hareket hızı
+    
+            // Lent ve uçağı aynı pozisyona taşırız
+            ribbon.style.left = position +"px";
+            plane.style.left = position + 120 + "px";  // Uçak lentin arkasında kalır
+    
+            // Uçak ekranın sonuna geldiğinde başa döner
+            if (position > window.innerWidth) {
+                position = -250;
+            }
+    
+            requestAnimationFrame(animate);  // Animasyonu tekrarlar
+        }
+    
+        // İsim değiştirici döngü
+        setInterval(changeName, 2000);  // Her 2 saniyede bir isim değişir
+    
+        animate();  // Animasyonu başlatır
+</script>
+
+
+
+
+</body>
+</html>
